@@ -7,18 +7,21 @@ import {
     TouchableWithoutFeedback,
     Image,
     TextInput,
+    Dimensions,
     Modal, FlatList, KeyboardAvoidingView, ScrollView
 } from 'react-native';
 
 import LinearGradient from "react-native-linear-gradient"
-import { AntDesign, EvilIcons } from "@expo/vector-icons"
+import { AntDesign, EvilIcons, FontAwesome, Octicons } from "@expo/vector-icons"
 
-const SignUp = () => {
+const SignUp = ({navigation}) => {
 
     const [showPassword, setShowPassword] = useState(false)
     const [areas, setAreas] = useState([])
     const [selectedArea, setSelectedArea] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
+
+    const windowHeight = Dimensions.get('window').height;
 
 
 
@@ -55,7 +58,7 @@ const SignUp = () => {
             <TouchableOpacity
                 style={{
                     padding: 10,
-                    flexDirection: 'row'
+                    flexDirection: 'row',
                 }}
 
                 onPress={() => {
@@ -70,9 +73,8 @@ const SignUp = () => {
     }
 
 
-
     return (
-        <View style={{ flex: 1, backgroundColor: '#3CB371', paddingHorizontal: 10 }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#3CB371', paddingHorizontal: 10 }}>
             <TouchableOpacity
                 style={{
                     marginTop: 50,
@@ -88,7 +90,7 @@ const SignUp = () => {
                 <Image style={{ width: "100%", height: 100 }} resizeMode="contain" source={{ uri: "https://res.cloudinary.com/doouwbecx/image/upload/v1614007491/Digital%20Wallet/wallie-removebg-preview_nebtp5.png" }} />
             </View>
 
-            <View>
+            <View style={{marginHorizontal: 15}}>
                 <View>
                     <Text style={{ color: 'white' }}>Full Name</Text>
                     <TextInput
@@ -105,7 +107,7 @@ const SignUp = () => {
                     />
                 </View>
 
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: 20, marginHorizontal: 15 }}>
                     <Text style={{ color: 'white' }}>Phone Number</Text>
                     <View
                         style={{
@@ -122,8 +124,7 @@ const SignUp = () => {
                                 source={{uri: selectedArea?.flag}}
                                 style={{
                                     width: 20,
-                                    height: 20,
-                                    marginRight: 5
+                                    height: 20,                              
                                 }}
                             />
                             <Text style={{color: 'white'}}>{selectedArea?.callingCode}</Text>
@@ -134,7 +135,10 @@ const SignUp = () => {
                                     borderColor: "white",
                                     borderWidth: 1,
                                     padding: 5,
+                                    color: 'white'
                                 }}
+                                placeholder=" Enter Digits"
+                                placeholderTextColor="white"
                             />
                         </View>
 
@@ -143,7 +147,7 @@ const SignUp = () => {
 
                 </View>
 
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: 20, marginHorizontal: 15 }}>
                     <Text style={{ color: 'white' }}>Password</Text>
                     <TextInput
                         style={{
@@ -153,11 +157,22 @@ const SignUp = () => {
                             marginTop: 5,
                             color: 'white'
                         }}
-                        placeholder=" Enter Full Name"
+                        placeholder=" Enter Password"
                         placeholderTextColor="white"
+                        secureTextEntry={showPassword}
 
                     />
-                    <EvilIcons name="eye" size={24} color="white" />
+                    <TouchableOpacity 
+                        style={{position: 'absolute', right: 5, bottom: 10}}
+                        onPress={() => setShowPassword(!showPassword)}
+                        >
+                            {
+                                showPassword ? <Octicons name="eye-closed" size={20} color="white" /> : <Octicons name="eye" size={20} color="white" />
+                            }
+                       
+                        
+                    </TouchableOpacity>
+                    
             </View>
 
             <Modal
@@ -167,13 +182,12 @@ const SignUp = () => {
             >
                 <TouchableOpacity
                     onPress={() => setModalVisible(false)}
+                    style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
                 >
-                    <View 
-                        style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                    >
+                    <View>
                         <View
                             style={{
-                                height: 800,
+                                height: windowHeight,
                                 width: 300,
                                 backgroundColor: 'lightgreen',
                                 borderRadius: 10,
@@ -182,7 +196,7 @@ const SignUp = () => {
                             <FlatList 
                                 data={areas}
                                 keyExtractor={item => item.code}
-                                // renderItem={renderItem}
+                                renderItem={renderItem}
                                 showsVerticalScrollIndicator={false}
                                 style={{
                                     padding: 10,
@@ -193,8 +207,18 @@ const SignUp = () => {
                     </View>
                 </TouchableOpacity>
             </Modal>
-        </View>
+
+                <TouchableOpacity 
+                    style={{backgroundColor: 'black',padding: 20, borderRadius: 10, marginHorizontal: 15, marginTop: 50, alignItems: 'center'}}
+                    onPress={() => navigation.navigate('Tabs')}
+                >
+                    <Text style={{color: 'white'}}>Continue</Text>
+                </TouchableOpacity>
+        </ScrollView>
     )
 }
 
 export default SignUp
+
+
+const styles = StyleSheet.create()

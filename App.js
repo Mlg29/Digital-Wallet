@@ -10,7 +10,7 @@ import {NavigationContainer} from "@react-navigation/native"
 import SignUp from "./src/Pages/SignUp"
 import Home from "./src/Pages/Home"
 import Scan from "./src/Pages/Scan"
-
+import Tabs from "./src/Pages/tab"
 
 export default function App() {
 
@@ -26,6 +26,7 @@ export default function App() {
 }
       >
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Tabs" component={Tabs} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Scan" component={Scan} />
       </Stack.Navigator>
